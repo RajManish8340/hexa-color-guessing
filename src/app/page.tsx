@@ -1,13 +1,11 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 
-// TypeScript enum for selection results
 enum Result {
   Correct = 'correct',
   Wrong = 'wrong'
 }
 
-// Pure function to generate random hex color
 const getRandomColor = (): string => {
   const hexChars = '0123456789ABCDEF';
   let color = '#';
@@ -24,31 +22,26 @@ const ColorGuessingGame: React.FC = () => {
   const [answers, setAnswers] = useState<string[]>([]);
   const [selectionResult, setSelectionResult] = useState<Result | undefined>(undefined);
 
-  // Function to generate new color and answer options
   const generateColors = (): void => {
     const actualColor = getRandomColor();
     setColor(actualColor);
     
-    // Create array with correct answer and two random colors
     const answerOptions = [
       actualColor,
       getRandomColor(),
       getRandomColor()
     ];
     
-    // Randomly shuffle the array
     const shuffledAnswers = answerOptions.sort(() => Math.random() - 0.5);
     setAnswers(shuffledAnswers);
     
-    // Reset selection result
     setSelectionResult(undefined);
   };
 
-  // Handle user's answer selection
   const handleAnswerClicked = (selectedAnswer: string): void => {
     if (selectedAnswer === color) {
       setSelectionResult(Result.Correct);
-      // Generate new colors after a short delay for better UX
+
       setTimeout(() => {
         generateColors();
       }, 1500);
@@ -57,7 +50,6 @@ const ColorGuessingGame: React.FC = () => {
     }
   };
 
-  // Initialize game on component mount
   useEffect(() => {
     generateColors();
   }, []);
@@ -73,13 +65,13 @@ const ColorGuessingGame: React.FC = () => {
           Look at the color below and guess which hexadecimal code represents it!
         </p>
 
-        {/* Color display box */}
+
         <div 
           className="guessMe w-48 h-48 mx-auto mb-8 border-4 border-gray-300 rounded-lg shadow-lg"
           style={{ backgroundColor: color }}
         />
 
-        {/* Answer buttons */}
+
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
           {answers.map((answer, index) => (
             <button
@@ -93,7 +85,7 @@ const ColorGuessingGame: React.FC = () => {
           ))}
         </div>
 
-        {/* Result feedback */}
+
         {selectionResult && (
           <div className="text-xl font-semibold mb-4">
             {selectionResult === Result.Correct ? (
@@ -109,7 +101,7 @@ const ColorGuessingGame: React.FC = () => {
         )}
       </div>
 
-      {/* Educational info */}
+
       <div className="mt-12 max-w-2xl text-sm text-gray-500 text-center">
         <p className="mb-2">
           <strong>Tip:</strong> Hex colors are made up of Red, Green, and Blue values.
